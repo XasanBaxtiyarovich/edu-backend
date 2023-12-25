@@ -11,7 +11,7 @@ export class GroupService {
   constructor(@InjectRepository(Group)private groupRepository: Repository<Group> ){}
 
   async createGroup(createGroupDto: CreateGroupDto): Promise<Object> {
-    const  [group]  = await this.groupRepository.findBy({ name: createGroupDto.group_name });
+    const  [group]  = await this.groupRepository.findBy({ name: createGroupDto.name });
     if (group) return {
                               message: 'Group name already exists',
                               status: HttpStatus.CONFLICT
@@ -53,7 +53,7 @@ export class GroupService {
   }
 
   async updateOneGroup(id: number, updateGroupDto: UpdateGroupDto): Promise<Object> {
-    const [ group ] = await this.groupRepository.findBy({ name: updateGroupDto.group_name });
+    const [ group ] = await this.groupRepository.findBy({ name: updateGroupDto.name });
     if (!group) return {
                          message: 'Gruop name already exists',
                          status: HttpStatus.CONFLICT

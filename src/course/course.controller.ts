@@ -1,14 +1,19 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Query } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 
+import { Course } from './entities';
 import { CourseService } from './course.service';
 import { CreateCourseDto, UpdateCourseDto } from './dto'
 
 
+@ApiTags('course')
 @Controller('course')
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
   // Create Course
+  @ApiOperation({summary: 'Create course'})
+  @ApiResponse({status: 200, type: Course})
   @Post('create')
   createCourse(
     @Body() createCourseDto: CreateCourseDto
@@ -17,20 +22,26 @@ export class CourseController {
   }
 
   // Find All Courses
+  @ApiOperation({summary: 'Find all course'})
+  @ApiResponse({status: 200, type: [Course]})
   @Get('find')
   findAllCOURSE(): Promise<Object> {
     return this.courseService.findAllCOURSE();
   }
 
-  // Find By ID Course
-  @Get('find.BY-id/:id')
+  // Find One Course
+  @ApiOperation({summary: 'Find one course'})
+  @ApiResponse({status: 200, type: Course})
+  @Get('find/:id')
   findOneCourse(
-    @Param('id') id: string
+    @Param('id') id: number
   ): Promise<Object> {
-    return this.courseService.findOneCourse(+id);
+    return this.courseService.findOneCourse(id);
   }
 
-  // Update BY ID, One Course
+  // Update One Course
+  @ApiOperation({summary: 'Update one course'})
+  @ApiResponse({status: 200, type: Course})
   @Put('update/:id')
   updateCourse(
     @Param('id') id: string, 
@@ -39,7 +50,9 @@ export class CourseController {
     return this.courseService.updateCOURSE(+id, updateCourseDto);
   }
 
-  // Remove BY ID, One Course
+  // Remove One Course
+  @ApiOperation({summary: 'Remove course'})
+  @ApiResponse({status: 200, type: Course})
   @Delete('delete/:id')
   removeCourse(
     @Param('id') id: string
@@ -48,6 +61,8 @@ export class CourseController {
   }
 
   // Searche One Teacher
+  @ApiOperation({summary: 'Searche course'})
+  @ApiResponse({status: 200, type: Course})
   @Get('search')
   searchCourses(
     @Param('name') name: string

@@ -4,16 +4,21 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
+
 import { Data } from './date/entities';
 import { Room } from './room/entities';
 import { Course } from './course/entities';
+import { Lesson } from './lesson/entities';
 import { Person } from './persons/entities';
+import { StudentGroup } from './student_group/entities';
+
 import { RoomModule } from './room/room.module';
 import { DateModule } from './date/date.module';
+import { LessonModule } from './lesson/lesson.module';
 import { CourseModule } from './course/course.module';
-import { StudentGroup } from './student_group/entities';
 import { PersonsModule } from './persons/persons.module';
 import { StudentGroupModule } from './student_group/student_group.module';
+
 
 @Module({
   imports: [
@@ -37,11 +42,12 @@ import { StudentGroupModule } from './student_group/student_group.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [ Person, Room, Course, Data, StudentGroup],
+      entities: [ Person, Room, Course, Data, StudentGroup, Lesson],
       synchronize: true,
     }),
     DateModule,
     RoomModule,
+    LessonModule,
     CourseModule,
     PersonsModule,
     StudentGroupModule
@@ -50,5 +56,3 @@ import { StudentGroupModule } from './student_group/student_group.module';
   providers: [],
 })
 export class AppModule {}
-
-

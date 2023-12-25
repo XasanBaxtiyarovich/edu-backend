@@ -1,15 +1,20 @@
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 
+import { Person } from './entities';
 import { PersonsService } from './persons.service';
 import { AddPersonDto, SignInDto, UpdateDataDto, UpdatePasswordDto } from './dto';
 
 
+@ApiTags('persons')
 @Controller('')
 export class PersonsController {
   constructor( private readonly personsService: PersonsService ) {}
 
   // Added Admin
+  @ApiOperation({summary: 'Add admin'})
+  @ApiResponse({status: 200, type: Person})
   @Post('added-admin')
   @UseInterceptors(FileInterceptor('image'))
   add_admin(
@@ -20,6 +25,8 @@ export class PersonsController {
   }
 
   // Added Teacher
+  @ApiOperation({summary: 'Add teacher'})
+  @ApiResponse({status: 200, type: Person})
   @Post('added-teacher')
   @UseInterceptors(FileInterceptor('image'))
   add_teacher(
@@ -30,6 +37,8 @@ export class PersonsController {
   }
 
   // Added Student
+  @ApiOperation({summary: 'Add student'})
+  @ApiResponse({status: 200, type: Person})
   @Post('added-student')
   @UseInterceptors(FileInterceptor('image'))
   add_student(
@@ -40,6 +49,8 @@ export class PersonsController {
   }
 
   // Sign In
+  @ApiOperation({summary: 'Sign in'})
+  @ApiResponse({status: 200, type: Person})
   @Post('signin')
   signIn(
     @Body() SignInDto: SignInDto
@@ -48,6 +59,8 @@ export class PersonsController {
   }
 
   // Find One Super Admin
+  @ApiOperation({summary: 'Find one super admin'})
+  @ApiResponse({status: 200, type: Person})
   @Get('find-one/super-admin/:id')
   find_one_super_admin(
     @Param('id') id: number
@@ -56,6 +69,8 @@ export class PersonsController {
   }
 
   // Find One Admin
+  @ApiOperation({summary: 'Find one admin'})
+  @ApiResponse({status: 200, type: Person})
   @Get('find-one/admin/:id')
   find_one_admin(
     @Param('id') id: number
@@ -64,6 +79,8 @@ export class PersonsController {
   }
 
   // Find One Teacher
+  @ApiOperation({summary: 'Find one teacher'})
+  @ApiResponse({status: 200, type: Person})
   @Get('find-one/teacher/:id')
   find_one_teacher(
     @Param('id') id: number
@@ -71,7 +88,9 @@ export class PersonsController {
     return this.personsService.find_one_teacher(id);
   }
 
-  // Find One Teacher
+  // Find One Student
+  @ApiOperation({summary: 'Find one student'})
+  @ApiResponse({status: 200, type: Person})
   @Get('find-one/student/:id')
   find_one_student(
     @Param('id') id: number
@@ -80,6 +99,8 @@ export class PersonsController {
   }
 
   // Searche One Admin
+  @ApiOperation({summary: 'Searche admin'})
+  @ApiResponse({status: 200, type: Person})
   @Get('searche/admin/:name')
   searche_admin(
     @Param('name') name: string
@@ -88,6 +109,8 @@ export class PersonsController {
   }
 
   // Searche One Teacher
+  @ApiOperation({summary: 'Searche teacher'})
+  @ApiResponse({status: 200, type: Person})
   @Get('searche/teacher/:name')
   searche_teacher(
     @Param('name') name: string
@@ -95,7 +118,9 @@ export class PersonsController {
     return this.personsService.searche_teacher(name);
   }
 
-  // Searche One Teacher
+  // Searche One Student
+  @ApiOperation({summary: 'Searche student'})
+  @ApiResponse({status: 200, type: Person})
   @Get('searche/student/:name')
   searche_student(
     @Param('name') name: string
@@ -104,30 +129,40 @@ export class PersonsController {
   }
 
   // Find All Admins 
+  @ApiOperation({summary: 'Find all admins'})
+  @ApiResponse({status: 200, type: [Person]})
   @Get('find-all/admins')
   find_admins(): Promise<Object> {
     return this.personsService.find_admins()
   };
 
   // Find All Teachers 
+  @ApiOperation({summary: 'Find all teachers'})
+  @ApiResponse({status: 200, type: [Person]})
   @Get('find-all/teachers')
   find_teachers(): Promise<Object> {
     return this.personsService.find_teachers()
   };
 
   // Find All Students 
+  @ApiOperation({summary: 'Find all students'})
+  @ApiResponse({status: 200, type: [Person]})
   @Get('find-all/students')
   find_students(): Promise<Object> {
     return this.personsService.find_students()
   };
 
   // Find Not Active Persons 
+  @ApiOperation({summary: 'Find all not active persons'})
+  @ApiResponse({status: 200, type: [Person]})
   @Get('find-not-active/persons')
   find_not_active_persons(): Promise<Object> {
     return this.personsService.find_not_active_persons()
   };
 
   // Update Persom Data
+  @ApiOperation({summary: 'Update data person'})
+  @ApiResponse({status: 200, type: Person})
   @Put('update/:id')
   update_data(
     @Param('id') id: number, 
@@ -137,6 +172,8 @@ export class PersonsController {
   }
 
   // Update Perosn Password
+  @ApiOperation({summary: 'Update password person'})
+  @ApiResponse({status: 200, type: Person})
   @Put('update-password/:id')
   update_password(
     @Param('id') id: number, 
@@ -146,6 +183,8 @@ export class PersonsController {
   }
 
   // Not Active or Active
+  @ApiOperation({summary: 'Update active person'})
+  @ApiResponse({status: 200, type: Person})
   @Get('active/:id')
   is_admin_user(
     @Param('id') id: number
@@ -154,6 +193,8 @@ export class PersonsController {
   }
 
   // Remove One User BY ID
+  @ApiOperation({summary: 'Remove person'})
+  @ApiResponse({status: 200})
   @Delete('remove/:id')
   remove_person(
     @Param('id') id: number
