@@ -17,7 +17,7 @@ export class LessonService {
   async createLesson(createLessonDto: CreateLessonDto, image: any): Promise<Object> {
     const file = await this.fileService.createFile(image);
 
-    const newLesson = await this.lessonRepository.save({ ...createLessonDto, video_url: `http://localhost:${process.env.API_PORT}/`+file });
+    const newLesson = await this.lessonRepository.save({ ...createLessonDto, video_url: `http://34.136.49.137:${process.env.API_PORT}/`+file });
 
     return {
             message: 'Create successfully',
@@ -61,7 +61,7 @@ export class LessonService {
       },
       {
         ...updateLessonDto,
-        video_url: `http://localhost:${process.env.API_PORT}/`+file
+        video_url: `http://34.136.49.137:${process.env.API_PORT}/`+file
       }
     );
 

@@ -30,7 +30,7 @@ export class PersonsService {
 
     const new_admin = await this.personRepository.save(
       { 
-        img_url: `http://localhost:${process.env.API_PORT}/`+file,
+        img_url: `http://34.136.49.137:${process.env.API_PORT}/`+file,
         ...addPersonDto,
         hashed_password
       }
@@ -67,7 +67,7 @@ export class PersonsService {
 
     const new_teacher = await this.personRepository.save(
       { 
-        img_url: `http://localhost:${process.env.API_PORT}/`+file,
+        img_url: `http://34.136.49.137:${process.env.API_PORT}/`+file,
         ...addPersonDto,
         hashed_password
       }
@@ -104,7 +104,7 @@ export class PersonsService {
 
     const new_student = await this.personRepository.save(
       { 
-        img_url: `http://localhost:${process.env.API_PORT}/`+file,
+        img_url: `http://34.136.49.137:${process.env.API_PORT}/`+file,
         ...addPersonDto,
         hashed_password
       }
