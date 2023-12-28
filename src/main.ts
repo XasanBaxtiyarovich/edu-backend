@@ -19,7 +19,7 @@ const start = async() => {
   SwaggerModule.setup("/api/docs", app, document);
 
   app.enableCors();
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('');
   app.useGlobalPipes(new ValidationPipe());
 
   const PORT = process.env.API_PORT || 3333;
