@@ -54,16 +54,20 @@ export class RoomService {
     const [ room ] = await this.roomRepository.findBy({ room_id: id });
 
     if (!room) return {
-                        message: 'Book Not Found',
+                        message: 'Room Not Found',
                         status: HttpStatus.NOT_FOUND
                       };
     
     const [ roomName ] = await this.roomRepository.findBy({ name: updateRoomDto.name });
 
-    if (roomName) return {
-                      message: 'This room name already exists',
-                      status: HttpStatus.CONFLICT
-                     };
+    if (roomName) {
+      if (room.name !== updateRoomDto.name){
+        return {
+                  message: 'This room name already exists',
+                  status: HttpStatus.CONFLICT
+               };
+      }
+    }
 
     await this.roomRepository.update(
       { 
