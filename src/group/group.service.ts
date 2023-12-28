@@ -54,7 +54,7 @@ export class GroupService {
 
   async updateOneGroup(id: number, updateGroupDto: UpdateGroupDto): Promise<Object> {
     const [ group ] = await this.groupRepository.findBy({ name: updateGroupDto.name });
-    if (!group) return {
+    if (group) return {
                          message: 'Gruop name already exists',
                          status: HttpStatus.CONFLICT
                        };
