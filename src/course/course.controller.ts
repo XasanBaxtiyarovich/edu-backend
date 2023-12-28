@@ -63,7 +63,7 @@ export class CourseController {
   // Searche One Teacher
   @ApiOperation({summary: 'Searche course'})
   @ApiResponse({status: 200, type: Course})
-  @Get('search')
+  @Get('search/:name')
   searchCourses(
     @Param('name') name: string
   ): Promise<Object> {
