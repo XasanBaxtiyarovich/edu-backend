@@ -4,7 +4,7 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInter
 
 import { Person } from './entities';
 import { PersonsService } from './persons.service';
-import { AddPersonDto, SignInDto, UpdateDataDto, UpdatePasswordDto } from './dto';
+import { AddPersonDto, SelectDto, SignInDto, UpdateDataDto, UpdatePasswordDto } from './dto';
 
 
 @ApiTags('persons')
@@ -126,6 +126,36 @@ export class PersonsController {
     @Param('name') name: string
   ): Promise<Object> {
     return this.personsService.searche_student(name);
+  }
+
+  // Find Limited admins
+  @ApiOperation({summary: 'Find limited admins'})
+  @ApiResponse({status: 200, type: [Person]})
+  @Post('limit/admin')
+  select_limit_admin(
+    @Body() selectDto: SelectDto
+  ): Promise<Object> {
+    return this.personsService.select_limit_admin(selectDto);
+  }
+
+  // Find Limited teachers
+  @ApiOperation({summary: 'Find limited teachers'})
+  @ApiResponse({status: 200, type: [Person]})
+  @Post('limit/teacher')
+  select_limit_teacher(
+    @Body() selectDto: SelectDto
+  ): Promise<Object> {
+    return this.personsService.select_limit_teacher(selectDto);
+  }
+
+  // Find Limited students
+  @ApiOperation({summary: 'Find limited students'})
+  @ApiResponse({status: 200, type: [Person]})
+  @Post('limit/student')
+  select_limit_student(
+    @Body() selectDto: SelectDto
+  ): Promise<Object> {
+    return this.personsService.select_limit_student(selectDto);
   }
 
   // Find All Admins 

@@ -6,7 +6,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 
 import { Person } from './entities';
 import { FilesService } from '../files/files.service';
-import { AddPersonDto, SignInDto, UpdateDataDto, UpdatePasswordDto } from './dto';
+import { AddPersonDto, SelectDto, SignInDto, UpdateDataDto, UpdatePasswordDto } from './dto';
 
 
 @Injectable()
@@ -82,12 +82,14 @@ export class PersonsService {
       }
     );
 
-    const techer_new =  await this.personRepository.findBy({ email: new_teacher.email, person_id: new_teacher.person_id });
+    const teacher_new =  await this.personRepository.findBy({ email: new_teacher.email, person_id: new_teacher.person_id });
 
+    console.log(teacher_new);
+    
     return {
       message: 'added successfully',
       status: HttpStatus.OK,
-      teacher: techer_new
+      teacher: teacher_new
     };
   }
 
@@ -279,6 +281,111 @@ export class PersonsService {
     return {
             status: HttpStatus.OK,
             student
+           };
+  }
+
+  async select_limit_admin(selectDto: SelectDto): Promise<Object> {
+    const admins = await this.personRepository.find({ where: {is_active: true, is_admin: true} });
+    if (admins.length === 0) return {
+                                      message: 'Admins Not Found',
+                                      status: HttpStatus.NOT_FOUND
+                                    };
+                                    
+    let limit_admins = [];
+    if (selectDto.sort === 1 || selectDto.sort < 1) {
+      let num = 0;
+      for (let index = num; index < num + selectDto.limit; index++) {
+        if (admins[index] === undefined) break;
+
+        limit_admins.push(admins[index]);
+      };
+    } else {
+      let num = (selectDto.sort - 1) * selectDto.limit;
+      for (let index = num; index < num + selectDto.limit; index++) {
+        if (admins[index] === undefined) break;
+
+        limit_admins.push(admins[index]);
+      };
+    }
+
+    if (limit_admins.length === 0) return {
+                                            message: 'Admins Not Found',
+                                            status: HttpStatus.NOT_FOUND
+                                          };
+
+    return {
+            status: HttpStatus.OK,
+            limit_admins
+           };
+  }
+
+  async select_limit_teacher(selectDto: SelectDto): Promise<Object> {
+    const teachers = await this.personRepository.find({ where: {is_active: true, is_teacher: true}});
+    if (teachers.length === 0) return {
+                                      message: 'Teacher Not Found',
+                                      status: HttpStatus.NOT_FOUND
+                                    };
+                                    
+    let limit_teachers = [];
+    if (selectDto.sort === 1 || selectDto.sort < 1) {
+      let num = 0;
+      for (let index = num; index < num + selectDto.limit; index++) {
+        if (teachers[index] === undefined) break;
+
+        limit_teachers.push(teachers[index]);
+      };
+    } else {
+      let num = (selectDto.sort - 1) * selectDto.limit;
+      for (let index = num; index < num + selectDto.limit; index++) {
+        if (teachers[index] === undefined) break;
+
+        limit_teachers.push(teachers[index]);
+      };
+    }
+
+    if (limit_teachers.length === 0) return {
+                                            message: 'Teachers Not Found',
+                                            status: HttpStatus.NOT_FOUND
+                                          };
+
+    return {
+            status: HttpStatus.OK,
+            limit_teachers
+           };
+  }
+
+  async select_limit_student(selectDto: SelectDto): Promise<Object> {
+    const students = await this.personRepository.find({ where: {is_active: true, is_student: true} });
+    if (students.length === 0) return {
+                                        message: 'Students Not Found',
+                                        status: HttpStatus.NOT_FOUND
+                                      };
+                                    
+    let limit_students = [];
+    if (selectDto.sort === 1 || selectDto.sort < 1) {
+      let num = 0;
+      for (let index = num; index < num + selectDto.limit; index++) {
+        if (students[index] === undefined) break;
+
+        limit_students.push(students[index]);
+      };
+    } else {
+      let num = (selectDto.sort - 1) * selectDto.limit;
+      for (let index = num; index < num + selectDto.limit; index++) {
+        if (students[index] === undefined) break;
+
+        limit_students.push(students[index]);
+      };
+    }
+
+    if (limit_students.length === 0) return {
+                                            message: 'Students Not Found',
+                                            status: HttpStatus.NOT_FOUND
+                                          };
+
+    return {
+            status: HttpStatus.OK,
+            limit_students
            };
   }
 
