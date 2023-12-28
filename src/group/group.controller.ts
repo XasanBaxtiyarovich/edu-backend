@@ -6,7 +6,7 @@ import { GroupService } from './group.service';
 import { CreateGroupDto, UpdateGroupDto } from './dto'
 
 
-@ApiTags('group')
+@ApiTags('Group')
 @Controller('group')
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
