@@ -42,7 +42,7 @@ export class GroupController {
   // Update One Group
   @ApiOperation({summary: 'Update one group'})
   @ApiResponse({status: 200, type: Group})
-  @Put(':id')
+  @Put('update/:id')
   updateOneGroup(
     @Param('id') id: number, 
     @Body() updateGroupDto: UpdateGroupDto
@@ -53,7 +53,7 @@ export class GroupController {
   // Remove One Group
   @ApiOperation({summary: 'Remove one group'})
   @ApiResponse({status: 200})
-  @Delete(':id')
+  @Delete('update/:id')
   removeOneGroup(
     @Param('id') id: number
   ): Promise<Object | Number> {
