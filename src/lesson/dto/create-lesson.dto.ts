@@ -3,12 +3,10 @@ import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class CreateLessonDto {
     @ApiProperty({ example: 1, description: 'Teacher ID'})
-    @IsNumber()
     @IsNotEmpty()
     teacher_id: number;
    
     @ApiProperty({ example: 1, description: 'Group ID'})
-    @IsNumber()
     @IsNotEmpty()
     group_id: number;
    
