@@ -11,13 +11,13 @@ export class UpdateCourseDto {
     @IsNotEmpty()
     price:number
 
-    @ApiProperty({ example: '12:30', description: 'Course start date'})
+    @ApiProperty({ example: '12.02.2019', description: 'Course start date'})
     @IsNotEmpty()
-    @IsDateString()
-    start_date:Date
+    @IsString()
+    start_date: string
 
-    @ApiProperty({ example: '14:30', description: 'Course end date'})
+    @ApiProperty({ example: '12.02.2020', description: 'Course end date'})
     @IsNotEmpty()
-    @IsDateString()
-    end_date:Date
+    @IsString()
+    end_date: string
 }

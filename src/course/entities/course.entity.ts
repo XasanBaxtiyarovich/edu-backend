@@ -15,11 +15,11 @@ export class Course {
     @Column({type: 'integer'})
     price: number;
 
-    @ApiProperty({ example: '12:30', description: 'Course start date'})
-    @Column({type: 'date'})
-    start_date: Date;
+    @ApiProperty({ example: '12.02.2019', description: 'Course start date'})
+    @Column({type: 'text'})
+    start_date: string;
    
-    @ApiProperty({ example: '14:30', description: 'Course end date'})
-    @Column({type: 'date'})
-    end_date: Date;
+    @ApiProperty({ example: '12.02.2020', description: 'Course end date'})
+    @Column({type: 'text'})
+    end_date: string;
 }
