@@ -389,16 +389,21 @@ export class PersonsService {
            };
   }
 
-  async find_admins_and_teachers(): Promise<Object> {
-    const admins_and_teacher = await this.personRepository.find({ where: { is_active: true, is_admin: true, is_teacher: true } });
-    if (admins_and_teacher.length === 0) return {
+  async find_admins_and_teachers(): Promise<Object> {    
+    const admins = await this.personRepository.find({ where: { is_active: true, is_admin: true }});
+    
+    const teachers = await this.personRepository.find({ where: {is_active: true, is_teacher: true }});
+
+    const admins_and_teachers = [...admins, ...teachers];
+
+    if (admins_and_teachers.length === 0) return {
                                       message: 'Not Found',
                                       status: HttpStatus.NOT_FOUND
                                     };
     return {
             status: HttpStatus.OK,
-            admins_and_teacher,
-            total: admins_and_teacher.length
+            admins_and_teachers,
+            total: admins_and_teachers.length
            }
   }
 
