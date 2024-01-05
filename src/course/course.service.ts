@@ -35,7 +35,8 @@ export class CourseService {
                                     };
     return {
             courses,
-            status: HttpStatus.OK
+            status: HttpStatus.OK,
+            total: courses.length
            };
   }
 
