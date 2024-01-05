@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 @Entity('persons')
 export class Person {
@@ -50,4 +50,7 @@ export class Person {
   @ApiProperty({ example: false, description: 'Person is student?'})
   @Column({ default: false })
   is_student: boolean;
+
+  @CreateDateColumn()
+  created_at: Date; // Creation date
 }
