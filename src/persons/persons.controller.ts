@@ -45,7 +45,7 @@ export class PersonsController {
   // Find One Admin or Teacher
   @ApiOperation({summary: 'Find one admin or teacher'})
   @ApiResponse({status: 200, type: Person})
-  @Get('find-one/staff')
+  @Get('find-one/staff/:id')
   find_one_staff(
     @Param('id') id: number
   ): Promise<Object> {
