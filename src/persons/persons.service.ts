@@ -29,7 +29,7 @@ export class PersonsService {
     const hashedPassword = await bcrypt.hash(addPersonDto.password, 7);
     
     const newPersonData = {
-      img_url: null,
+      img_url: "",
       ...addPersonDto,
       hashed_password: hashedPassword
     };
