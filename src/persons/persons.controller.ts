@@ -158,6 +158,14 @@ export class PersonsController {
     return this.personsService.select_limit_student(selectDto);
   }
 
+  // Find Admins and Teachers
+  @ApiOperation({summary: 'Find all admins and students'})
+  @ApiResponse({status: 200, type: [Person]})  
+  @Get('find/admins-teachers')
+  find_admins_and_teachers(): Promise<Object> {
+    return this.personsService.find_admins_and_teachers();
+  }
+
   // Find All Admins 
   @ApiOperation({summary: 'Find all admins'})
   @ApiResponse({status: 200, type: [Person]})
