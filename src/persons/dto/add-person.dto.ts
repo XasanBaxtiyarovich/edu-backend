@@ -27,4 +27,9 @@ export class AddPersonDto {
     @MinLength(6)
     @MaxLength(25)
     password: string;
+
+    @ApiProperty({ example: 'admin', description: 'role'})
+    @IsString()
+    @IsNotEmpty()
+    role: string;
 }

@@ -17,117 +17,45 @@ export class PersonsService {
     private jwtService: JwtService
   ){}
   
-  async add_admin(addPersonDto: AddPersonDto, image: any): Promise<Object>  {
-    const [ admin ] = await this.personRepository.findBy({ email: addPersonDto.email });
-    if(admin) return { 
-                        message: 'email already exists',
-                        status: HttpStatus.CONFLICT
-                      };
-
+  async add_person(addPersonDto: AddPersonDto, image: any): Promise<Object>  {
+    const [existingPerson] = await this.personRepository.findBy({ email: addPersonDto.email });
+    if (existingPerson) {
+      return { 
+        message: 'email already exists',
+        status: HttpStatus.CONFLICT
+      };
+    }
+    
     const file = await this.fileService.createFile(image);
-
-    const hashed_password = await bcrypt.hash(addPersonDto.password, 7);
-
-    const new_admin = await this.personRepository.save(
-      { 
-        img_url: `http://34.136.49.137:${process.env.API_PORT}/`+file,
-        ...addPersonDto,
-        hashed_password
-      }
-    );
-
-    await this.personRepository.update(
-      { 
-        person_id: new_admin.person_id
-      },
-      {
-        is_admin: true
-      }
-    );
-
-    const admin_new =  await this.personRepository.findBy({ email: new_admin.email, person_id: new_admin.person_id });
-
-    return {
-      message: 'added successfully',
-      status: HttpStatus.OK,
-      person: admin_new
+    
+    const hashedPassword = await bcrypt.hash(addPersonDto.password, 7);
+    
+    const newPersonData = {
+      img_url: `http://34.136.49.137:${process.env.API_PORT}/${file}`,
+      ...addPersonDto,
+      hashed_password: hashedPassword
     };
-  }
-
-  async add_teacher(addPersonDto: AddPersonDto, image: any): Promise<Object>  {
-    const [ teacher ] = await this.personRepository.findBy({ email: addPersonDto.email });
-    if(teacher) return { 
-                        message: 'email already exists',
-                        status: HttpStatus.CONFLICT
-                      };
-
-    const file = await this.fileService.createFile(image);
-
-    const hashed_password = await bcrypt.hash(addPersonDto.password, 7);
-
-    const new_teacher = await this.personRepository.save(
-      { 
-        img_url: `http://34.136.49.137:${process.env.API_PORT}/`+file,
-        ...addPersonDto,
-        hashed_password
-      }
-    );
-
-    await this.personRepository.update(
-      { 
-        person_id: new_teacher.person_id
-      },
-      {
-        is_teacher: true
-      }
-    );
-
-    const teacher_new =  await this.personRepository.findBy({ email: new_teacher.email, person_id: new_teacher.person_id });
-
-    console.log(teacher_new);
+    const newPerson = await this.personRepository.save(newPersonData);
+    
+    let updateData = {};
+    if (addPersonDto.role === 'admin') {
+      updateData = { is_admin: true };
+    } else if (addPersonDto.role === 'student') {
+      updateData = { is_student: true };
+    } else if (addPersonDto.role === 'teacher') {
+      updateData = { is_teacher: true };
+    }
+    
+    await this.personRepository.update({ person_id: newPerson.person_id }, updateData);
+    
+    const [person] =  await this.personRepository.findBy({ email: newPerson.email, person_id: newPerson.person_id });
     
     return {
       message: 'added successfully',
       status: HttpStatus.OK,
-      teacher: teacher_new
+      person
     };
-  }
-
-  async add_student(addPersonDto: AddPersonDto, image: any): Promise<Object>  {
-    const [ student ] = await this.personRepository.findBy({ email: addPersonDto.email });
-    if(student) return { 
-                         message: 'email already exists',
-                         status: HttpStatus.CONFLICT
-                       };
-
-    const file = await this.fileService.createFile(image);
-
-    const hashed_password = await bcrypt.hash(addPersonDto.password, 7);
-
-    const new_student = await this.personRepository.save(
-      { 
-        img_url: `http://34.136.49.137:${process.env.API_PORT}/`+file,
-        ...addPersonDto,
-        hashed_password
-      }
-    );
-
-    await this.personRepository.update(
-      { 
-        person_id: new_student.person_id
-      },
-      {
-        is_student: true
-      }
-    );
-
-    const student_new =  await this.personRepository.findBy({ email: new_student.email, person_id: new_student.person_id });
-
-    return {
-      message: 'added successfully',
-      status: HttpStatus.OK,
-      student: student_new
-    };
+    
   }
 
   async signIn(signInDto: SignInDto): Promise<Object> {
@@ -210,30 +138,6 @@ export class PersonsService {
     return {
             message: 'Not Found',
             status: HttpStatus.NOT_FOUND
-           };
-  }
-
-  async find_one_admin(id: number): Promise<Object> {
-    const [ admin ] = await this.personRepository.findBy({ person_id: id, is_admin: true, is_active: true });
-    if (!admin) return {
-                              message: 'Admin Not Found',
-                              status: HttpStatus.NOT_FOUND
-                            };
-    return {
-            status: HttpStatus.OK,
-            admin
-           };
-  }
-
-  async find_one_teacher(id: number): Promise<Object> {
-    const [ teacher ] = await this.personRepository.findBy({ person_id: id, is_teacher: true, is_active: true });
-    if (!teacher) return {
-                              message: 'Teacher Not Found',
-                              status: HttpStatus.NOT_FOUND
-                            };
-    return {
-            status: HttpStatus.OK,
-            teacher
            };
   }
 

@@ -12,40 +12,16 @@ import { AddPersonDto, SelectDto, SignInDto, UpdateDataDto, UpdatePasswordDto } 
 export class PersonsController {
   constructor( private readonly personsService: PersonsService ) {}
 
-  // Added Admin
-  @ApiOperation({summary: 'Add admin'})
+  // Added Person
+  @ApiOperation({summary: 'Add person'})
   @ApiResponse({status: 200, type: Person})
-  @Post('added-admin')
+  @Post('add-person')
   @UseInterceptors(FileInterceptor('image'))
-  add_admin(
+  add_person(
     @UploadedFile() image: any,
     @Body() addPersonDto: AddPersonDto
   ): Promise<Object> {
-    return this.personsService.add_admin(addPersonDto, image);
-  }
-
-  // Added Teacher
-  @ApiOperation({summary: 'Add teacher'})
-  @ApiResponse({status: 200, type: Person})
-  @Post('added-teacher')
-  @UseInterceptors(FileInterceptor('image'))
-  add_teacher(
-    @UploadedFile() image: any,
-    @Body() addPersonDto: AddPersonDto
-  ): Promise<Object> {
-    return this.personsService.add_teacher(addPersonDto, image);
-  }
-
-  // Added Student
-  @ApiOperation({summary: 'Add student'})
-  @ApiResponse({status: 200, type: Person})
-  @Post('added-student')
-  @UseInterceptors(FileInterceptor('image'))
-  add_student(
-    @UploadedFile() image: any,
-    @Body() addPersonDto: AddPersonDto
-  ): Promise<Object> {
-    return this.personsService.add_student(addPersonDto, image);
+    return this.personsService.add_person(addPersonDto, image);
   }
 
   // Sign In
@@ -76,26 +52,6 @@ export class PersonsController {
     @Param('id') id: number
   ): Promise<Object> {
     return this.personsService.find_one_staff(id);
-  }
-
-  // Find One Admin
-  @ApiOperation({summary: 'Find one admin'})
-  @ApiResponse({status: 200, type: Person})
-  @Get('find-one/admin/:id')
-  find_one_admin(
-    @Param('id') id: number
-  ): Promise<Object> {
-    return this.personsService.find_one_admin(id);
-  }
-
-  // Find One Teacher
-  @ApiOperation({summary: 'Find one teacher'})
-  @ApiResponse({status: 200, type: Person})
-  @Get('find-one/teacher/:id')
-  find_one_teacher(
-    @Param('id') id: number
-  ): Promise<Object> {
-    return this.personsService.find_one_teacher(id);
   }
 
   // Find One Student
