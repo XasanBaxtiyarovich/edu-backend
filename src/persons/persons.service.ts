@@ -194,6 +194,25 @@ export class PersonsService {
            };
   }
 
+  async find_one_staff(id: number): Promise<Object> {
+    const [ admin ] = await this.personRepository.find({ where: { is_active: true, is_admin: true, person_id: id }});
+    if(admin) return {
+                      status: HttpStatus.OK,
+                      person: admin,
+                     }
+
+    const [ teacher ] = await this.personRepository.find({ where: {is_active: true, is_teacher: true, person_id: id }});
+    if(teacher) return {
+                        status: HttpStatus.OK,
+                        person: teacher,
+                       }
+
+    return {
+            message: 'Not Found',
+            status: HttpStatus.NOT_FOUND
+           };
+  }
+
   async find_one_admin(id: number): Promise<Object> {
     const [ admin ] = await this.personRepository.findBy({ person_id: id, is_admin: true, is_active: true });
     if (!admin) return {

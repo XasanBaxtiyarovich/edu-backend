@@ -68,6 +68,16 @@ export class PersonsController {
     return this.personsService.find_one_super_admin(id);
   }
 
+  // Find One Admin or Teacher
+  @ApiOperation({summary: 'Find one admin or teacher'})
+  @ApiResponse({status: 200, type: Person})
+  @Get('find-one/staff')
+  find_one_staff(
+    @Param('id') id: number
+  ): Promise<Object> {
+    return this.personsService.find_one_staff(id);
+  }
+
   // Find One Admin
   @ApiOperation({summary: 'Find one admin'})
   @ApiResponse({status: 200, type: Person})
