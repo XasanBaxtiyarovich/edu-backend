@@ -397,7 +397,8 @@ export class PersonsService {
                                     };
     return {
             status: HttpStatus.OK,
-            admins_and_teacher
+            admins_and_teacher,
+            total: admins_and_teacher.length
            }
   }
 
@@ -409,7 +410,8 @@ export class PersonsService {
                                     };
     return {
             status: HttpStatus.OK,
-            admins
+            admins,
+            total: admins.length
            }
   }
 
@@ -421,7 +423,8 @@ export class PersonsService {
                                     };
     return {
             status: HttpStatus.OK,
-            teachers
+            teachers,
+            total: teachers.length
            }
   }
 
@@ -433,7 +436,8 @@ export class PersonsService {
                                       };
     return {
             status: HttpStatus.OK,
-            students
+            students,
+            total: students.length
            }
   }
 
