@@ -42,6 +42,8 @@ export class PersonsService {
       updateData = { is_student: true };
     } else if (addPersonDto.role === 'teacher') {
       updateData = { is_teacher: true };
+    } else if (addPersonDto.role === 'super') {
+      updateData = { is_super_admin: true };
     }
     
     await this.personRepository.update({ person_id: newPerson.person_id }, updateData);
