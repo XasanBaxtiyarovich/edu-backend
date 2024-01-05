@@ -16,12 +16,10 @@ export class PersonsController {
   @ApiOperation({summary: 'Add person'})
   @ApiResponse({status: 200, type: Person})
   @Post('add-person')
-  @UseInterceptors(FileInterceptor('image'))
   add_person(
-    @UploadedFile() image: any,
     @Body() addPersonDto: AddPersonDto
   ): Promise<Object> {
-    return this.personsService.add_person(addPersonDto, image);
+    return this.personsService.add_person(addPersonDto);
   }
 
   // Sign In

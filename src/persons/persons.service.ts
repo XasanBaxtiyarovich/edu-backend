@@ -17,7 +17,7 @@ export class PersonsService {
     private jwtService: JwtService
   ){}
   
-  async add_person(addPersonDto: AddPersonDto, image: any): Promise<Object>  {
+  async add_person(addPersonDto: AddPersonDto): Promise<Object>  {
     const [existingPerson] = await this.personRepository.findBy({ email: addPersonDto.email });
     if (existingPerson) {
       return { 
@@ -26,12 +26,10 @@ export class PersonsService {
       };
     }
     
-    const file = await this.fileService.createFile(image);
-    
     const hashedPassword = await bcrypt.hash(addPersonDto.password, 7);
     
     const newPersonData = {
-      img_url: `http://34.136.49.137:${process.env.API_PORT}/${file}`,
+      img_url: null,
       ...addPersonDto,
       hashed_password: hashedPassword
     };
